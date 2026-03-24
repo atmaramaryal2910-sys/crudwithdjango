@@ -1,0 +1,41 @@
+{% extends 'players/base.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+<style>
+    .delete-container {
+        max-width: 500px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .warning-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    .delete-message {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+</style>
+
+<div class="glass-panel delete-container">
+    <div class="warning-icon">⚠️</div>
+    <h2>Are you absolutely sure?</h2>
+    <p class="delete-message">You are about to delete <strong>{{ object.name }}</strong> from the roster. This action cannot be undone.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="action-buttons">
+            <a href="{% url 'player_detail' object.pk %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">Yes, Delete Player</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

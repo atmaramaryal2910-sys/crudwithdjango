@@ -1,0 +1,95 @@
+{% extends 'players/base.html' %}
+
+{% block title %}Players List{% endblock %}
+
+{% block content %}
+<style>
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 0.25rem;
+    }
+
+    .card-subtitle {
+        color: var(--text-secondary);
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+    }
+
+    .card-details p {
+        margin: 0.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding-bottom: 0.5rem;
+    }
+
+    .card-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem;
+        color: var(--text-secondary);
+    }
+</style>
+
+<div class="header-actions">
+    <h2>Team Roster</h2>
+    <a href="{% url 'player_create' %}" class="btn btn-primary">+ Add Player</a>
+</div>
+
+{% if players %}
+<div class="grid">
+    {% for player in players %}
+    <div class="glass-panel card">
+        <div>
+            <div class="card-title">{{ player.name }}</div>
+            <div class="card-subtitle">{{ player.position }}</div>
+            <div class="card-details">
+                <p><span>Team:</span> <span>{{ player.team }}</span></p>
+                <p><span>Age:</span> <span>{{ player.age }}</span></p>
+                <p><span>Nationality:</span> <span>{{ player.nationality }}</span></p>
+            </div>
+        </div>
+        <div class="card-actions">
+            <a href="{% url 'player_detail' player.pk %}" class="btn btn-secondary" style="flex: 1;">View</a>
+            <a href="{% url 'player_update' player.pk %}" class="btn btn-secondary" style="flex: 1;">Edit</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="glass-panel empty-state">
+    <h3>No players found</h3>
+    <p>Get started by adding a new player to the roster.</p>
+</div>
+{% endif %}
+
+{% endblock %}
