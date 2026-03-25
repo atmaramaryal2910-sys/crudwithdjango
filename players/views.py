@@ -16,13 +16,13 @@ class PlayerCreateView(CreateView):
     model = Player
     fields = '__all__'
     template_name = 'players/player_form.html'
-    success_url = reverse_lazy('player_list')
+    success_url = reverse_lazy('player_formation')
 
 class PlayerUpdateView(UpdateView):
     model = Player
     fields = '__all__'
     template_name = 'players/player_form.html'
-    success_url = reverse_lazy('player_list')
+    success_url = reverse_lazy('player_formation')
 
 class PlayerDeleteView(DeleteView):
     model = Player
