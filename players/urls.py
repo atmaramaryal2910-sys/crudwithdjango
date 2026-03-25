@@ -7,4 +7,5 @@ urlpatterns = [
     path('player/new/', views.PlayerCreateView.as_view(), name='player_create'),
     path('player/<int:pk>/edit/', views.PlayerUpdateView.as_view(), name='player_update'),
     path('player/<int:pk>/delete/', views.PlayerDeleteView.as_view(), name='player_delete'),
+    path('formation/', views.PlayerFormationView.as_view(), name='player_formation'),
 ]

@@ -172,8 +172,12 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <a href="{% url 'player_list' %}"><h1>FC Roster</h1></a>
+        <header class="header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <a href="{% url 'player_list' %}" style="text-decoration: none;"><h1 style="margin: 0;">FC Roster</h1></a>
+            <div class="nav-links">
+                <a href="{% url 'player_list' %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Players</a>
+                <a href="{% url 'player_formation' %}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-left: 0.5rem;">Formation</a>
+            </div>
         </header>
         <main>
             {% block content %}

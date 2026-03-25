@@ -28,3 +28,8 @@ class PlayerDeleteView(DeleteView):
     model = Player
     template_name = 'players/player_confirm_delete.html'
     success_url = reverse_lazy('player_list')
+
+class PlayerFormationView(ListView):
+    model = Player
+    context_object_name = 'players'
+    template_name = 'players/player_formation.html'

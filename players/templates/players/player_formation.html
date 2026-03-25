@@ -1,0 +1,157 @@
+{% extends 'players/base.html' %}
+
+{% block title %}Team Formation{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --pitch-green: #2e7d32;
+        --pitch-line: rgba(255, 255, 255, 0.8);
+    }
+
+    .pitch-container {
+        width: 100%;
+        max-width: 1000px;
+        aspect-ratio: 16 / 9;
+        background-color: var(--pitch-green);
+        background-image: 
+            linear-gradient(90deg, transparent 49.5%, var(--pitch-line) 49.5%, var(--pitch-line) 50.5%, transparent 50.5%),
+            radial-gradient(circle at 50% 50%, transparent 40%, var(--pitch-line) 40%, var(--pitch-line) 41%, transparent 41%);
+        background-size: 100% 100%, 20% 40%;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 4px solid var(--pitch-line);
+        position: relative;
+        margin: 2rem auto;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    /* Pitch Markings */
+    .pitch-container::before {
+        content: '';
+        position: absolute;
+        top: 20%;
+        left: 0;
+        width: 15%;
+        height: 60%;
+        border: 2px solid var(--pitch-line);
+        border-left: none;
+    }
+    .pitch-container::after {
+        content: '';
+        position: absolute;
+        top: 20%;
+        right: 0;
+        width: 15%;
+        height: 60%;
+        border: 2px solid var(--pitch-line);
+        border-right: none;
+    }
+
+    .player-marker {
+        position: absolute;
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translate(-50%, -50%);
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+
+    .player-photo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--accent-primary);
+        background: var(--glass-bg);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .player-initials {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent-primary);
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        border: 3px solid white;
+    }
+
+    .player-name-label {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        margin-top: 4px;
+        white-space: nowrap;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Positioning Logic */
+    .pos-Goalkeeper { left: 8%; top: 50%; }
+    .pos-Sweeper { left: 18%; top: 50%; }
+    .pos-Centre-back { left: 25%; top: 50%; } /* Simplified for group mapping */
+    .pos-Full-back { left: 25%; top: 20%; }   /* Adjusted later in template */
+    .pos-Wing-back { left: 35%; top: 15%; }
+    .pos-Defensive-Midfielder { left: 40%; top: 50%; }
+    .pos-Central-Midfielder { left: 55%; top: 50%; }
+    .pos-Attacking-Midfielder { left: 70%; top: 50%; }
+    .pos-Winger { left: 75%; top: 20%; }
+    .pos-Forward { left: 85%; top: 30%; }
+    .pos-Striker { left: 90%; top: 50%; }
+
+</style>
+
+<div class="header-actions">
+    <h2>Team Formation</h2>
+    <a href="{% url 'player_list' %}" class="btn btn-secondary">Back to Roster</a>
+</div>
+
+<div class="glass-panel" style="padding: 1rem;">
+    <p style="text-align: center; color: var(--text-secondary);">Visual layout of your team based on selected positions.</p>
+    
+    <div class="pitch-container">
+        {% for player in players %}
+            <div class="player-marker 
+                {% if player.position == 'Goalkeeper' %}pos-Goalkeeper
+                {% elif player.position == 'Sweeper' %}pos-Sweeper
+                {% elif player.position == 'Centre-back' %}pos-Centre-back
+                {% elif player.position == 'Full-back' %}pos-Full-back
+                {% elif player.position == 'Wing-back' %}pos-Wing-back
+                {% elif player.position == 'Defensive Midfielder' %}pos-Defensive-Midfielder
+                {% elif player.position == 'Central Midfielder' %}pos-Central-Midfielder
+                {% elif player.position == 'Attacking Midfielder' %}pos-Attacking-Midfielder
+                {% elif player.position == 'Winger' %}pos-Winger
+                {% elif player.position == 'Forward' %}pos-Forward
+                {% elif player.position == 'Striker' %}pos-Striker
+                {% endif %}"
+                style="{% if player.position == 'Full-back' and forloop.counter|divisibleby:2 %}top: 80%;{% endif %}
+                       {% if player.position == 'Centre-back' and forloop.counter|divisibleby:2 %}top: 30%;{% elif player.position == 'Centre-back' %}top: 70%;{% endif %}
+                       {% if player.position == 'Winger' and forloop.counter|divisibleby:2 %}top: 80%;{% endif %}
+                       {% if player.position == 'Forward' and forloop.counter|divisibleby:2 %}top: 70%;{% endif %}">
+                
+                <a href="{% url 'player_detail' player.pk %}">
+                    {% if player.image %}
+                        <img src="{{ player.image.url }}" alt="{{ player.name }}" class="player-photo">
+                    {% else %}
+                        <div class="player-initials">{{ player.name|truncatechars:2|upper }}</div>
+                    {% endif %}
+                </a>
+                <div class="player-name-label">{{ player.name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
