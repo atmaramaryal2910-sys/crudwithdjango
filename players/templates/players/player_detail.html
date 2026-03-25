@@ -51,12 +51,30 @@
         justify-content: center;
         gap: 1.5rem;
     }
+    .player-image-container {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+    .player-detail-image {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid var(--accent-primary);
+        box-shadow: var(--glass-shadow);
+    }
 </style>
 
 <div class="glass-panel detail-container">
     <a href="{% url 'player_list' %}" class="btn btn-secondary" style="margin-bottom: 2rem;">&larr; Back to Roster</a>
 
     <div class="detail-header">
+        {% if player.image %}
+            <div class="player-image-container">
+                <img src="{{ player.image.url }}" alt="{{ player.name }}" class="player-detail-image">
+            </div>
+        {% endif %}
         <div class="detail-name">{{ player.name }}</div>
         <div class="detail-position">{{ player.position }}</div>
     </div>

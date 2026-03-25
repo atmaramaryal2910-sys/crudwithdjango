@@ -136,3 +136,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+# Media files (user uploaded images)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'

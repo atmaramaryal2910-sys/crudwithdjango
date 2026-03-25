@@ -23,7 +23,7 @@
 
 <div class="glass-panel form-container">
     <h2 class="form-title">{% if form.instance.pk %}Edit Player Details{% else %}Register New Player{% endif %}</h2>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
 
